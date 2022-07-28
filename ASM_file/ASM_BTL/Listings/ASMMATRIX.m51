@@ -1,0 +1,195 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    06/17/2022  10:27:01  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\ASMLEDMATRIX.obj TO .\Objects\ASMMATRIX PRINT (.\Listings\ASMMATRIX.m51) RAMSIZE (
+>> 256)
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\ASMLEDMATRIX.obj (ASMLEDMATRIX)
+
+
+LINK MAP OF MODULE:  .\Objects\ASMMATRIX (ASMLEDMATRIX)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     01D6H     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\ASMMATRIX (ASMLEDMATRIX)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ASMLEDMATRIX
+  C:006BH         SYMBOL        BACK
+  N:0028H         SYMBOL        CASEOFF
+  N:0021H         SYMBOL        CHONCOT
+  C:0079H         SYMBOL        DELAY
+  B:00A8H.7       SYMBOL        EA
+  B:00A8H.1       SYMBOL        ET0
+  B:00A8H.0       SYMBOL        EX0
+  B:00A8H.2       SYMBOL        EX1
+  C:00CCH         SYMBOL        EXIT
+  C:00E6H         SYMBOL        EXIT_RETI
+  C:0054H         SYMBOL        HEARTDATA
+  C:00FAH         SYMBOL        HEXOFFTABLE
+  C:01B6H         SYMBOL        HEXTABLE
+  C:00CDH         SYMBOL        HEX_LEDOFF_CONVERT
+  C:007BH         SYMBOL        LAPDL
+  C:0087H         SYMBOL        LAPQUET
+  N:0025H         SYMBOL        LEDCOUNTER
+  C:019AH         SYMBOL        LEDCOUNT_TABLE
+  C:0033H         SYMBOL        MAIN
+  C:00CAH         SYMBOL        NEXT
+  C:00EBH         SYMBOL        NGATNGOAI0
+  C:00EFH         SYMBOL        NGATNGOAI1
+  C:00ABH         SYMBOL        NGATTIMER0
+  N:0029H         SYMBOL        POINTER_DATARAM
+  N:0027H         SYMBOL        POINTER_OFFTABLE
+  C:0082H         SYMBOL        QUETMATRAN
+  C:0030H         SYMBOL        RESET
+  C:0015H         SYMBOL        SET_MODE
+  D:0081H         SYMBOL        SP
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/17/2022  10:27:01  PAGE 2
+
+
+  B:0088H.5       SYMBOL        TF0
+  D:008CH         SYMBOL        TH0
+  D:008AH         SYMBOL        TL0
+  D:0089H         SYMBOL        TMOD
+  N:0026H         SYMBOL        TOCDOTAT
+  B:0088H.4       SYMBOL        TR0
+  N:1000H         SYMBOL        TRUYXUATCOTCAO
+  N:1F00H         SYMBOL        TRUYXUATCOTTHAP
+  N:4000H         SYMBOL        TRUYXUATHANGCAO
+  N:9000H         SYMBOL        TRUYXUATHANGTHAP
+  C:0000H         LINE#         27
+  C:0003H         LINE#         30
+  C:000BH         LINE#         33
+  C:0013H         LINE#         36
+  C:0015H         LINE#         39
+  C:0018H         LINE#         41
+  C:0030H         LINE#         45
+  C:0033H         LINE#         49
+  C:0036H         LINE#         50
+  C:0039H         LINE#         51
+  C:003CH         LINE#         54
+  C:003FH         LINE#         55
+  C:0041H         LINE#         56
+  C:0043H         LINE#         58
+  C:0045H         LINE#         59
+  C:0047H         LINE#         60
+  C:0049H         LINE#         62
+  C:004BH         LINE#         63
+  C:004DH         LINE#         66
+  C:004FH         LINE#         67
+  C:0052H         LINE#         68
+  C:0054H         LINE#         70
+  C:0056H         LINE#         71
+  C:0059H         LINE#         72
+  C:005AH         LINE#         73
+  C:005BH         LINE#         75
+  C:005DH         LINE#         76
+  C:0060H         LINE#         77
+  C:0061H         LINE#         78
+  C:0062H         LINE#         80
+  C:0063H         LINE#         81
+  C:0064H         LINE#         82
+  C:0066H         LINE#         83
+  C:0069H         LINE#         85
+  C:006BH         LINE#         91
+  C:006DH         LINE#         93
+  C:0070H         LINE#         94
+  C:0072H         LINE#         95
+  C:0075H         LINE#         96
+  C:0077H         LINE#         98
+  C:0079H         LINE#         102
+  C:007BH         LINE#         103
+  C:007DH         LINE#         104
+  C:007FH         LINE#         105
+  C:0081H         LINE#         106
+  C:0082H         LINE#         109
+  C:0085H         LINE#         110
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/17/2022  10:27:01  PAGE 3
+
+
+  C:0087H         LINE#         112
+  C:0089H         LINE#         113
+  C:008BH         LINE#         115
+  C:008DH         LINE#         116
+  C:008EH         LINE#         118
+  C:008FH         LINE#         119
+  C:0092H         LINE#         120
+  C:0093H         LINE#         121
+  C:0094H         LINE#         123
+  C:0095H         LINE#         124
+  C:0098H         LINE#         125
+  C:0099H         LINE#         126
+  C:009AH         LINE#         128
+  C:009CH         LINE#         130
+  C:009EH         LINE#         131
+  C:00A0H         LINE#         132
+  C:00A2H         LINE#         133
+  C:00A3H         LINE#         134
+  C:00A5H         LINE#         136
+  C:00A7H         LINE#         137
+  C:00A9H         LINE#         138
+  C:00AAH         LINE#         140
+  C:00ABH         LINE#         143
+  C:00ADH         LINE#         144
+  C:00B0H         LINE#         145
+  C:00B3H         LINE#         146
+  C:00B5H         LINE#         148
+  C:00B7H         LINE#         149
+  C:00B9H         LINE#         150
+  C:00BBH         LINE#         153
+  C:00BDH         LINE#         155
+  C:00BFH         LINE#         156
+  C:00C2H         LINE#         158
+  C:00C4H         LINE#         159
+  C:00C6H         LINE#         160
+  C:00C7H         LINE#         161
+  C:00C9H         LINE#         162
+  C:00CAH         LINE#         164
+  C:00CCH         LINE#         166
+  C:00CDH         LINE#         169
+  C:00CFH         LINE#         171
+  C:00D1H         LINE#         172
+  C:00D4H         LINE#         173
+  C:00D5H         LINE#         174
+  C:00D6H         LINE#         175
+  C:00D8H         LINE#         177
+  C:00DAH         LINE#         178
+  C:00DCH         LINE#         179
+  C:00DDH         LINE#         180
+  C:00DEH         LINE#         181
+  C:00E0H         LINE#         183
+  C:00E3H         LINE#         185
+  C:00E4H         LINE#         186
+  C:00E6H         LINE#         189
+  C:00E8H         LINE#         190
+  C:00EAH         LINE#         191
+  C:00EBH         LINE#         194
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/17/2022  10:27:01  PAGE 4
+
+
+  C:00EEH         LINE#         195
+  C:00EFH         LINE#         199
+  C:00F2H         LINE#         200
+  C:00F4H         LINE#         201
+  C:00F6H         LINE#         202
+  C:00F7H         LINE#         203
+  C:00F9H         LINE#         204
+  -------         ENDMOD        ASMLEDMATRIX
+
+Program Size: data=8.0 xdata=0 code=470
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

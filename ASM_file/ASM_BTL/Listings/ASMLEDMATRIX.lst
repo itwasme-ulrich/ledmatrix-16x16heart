@@ -1,0 +1,359 @@
+A51 MACRO ASSEMBLER  ASMLEDMATRIX                                                         06/17/2022 10:27:01 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\ASMLEDMATRIX.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE ASMLEDMATRIX.a51 SET(SMALL) DEBUG PRINT(.\Listings\ASMLEDMATRIX.lst) OB
+                      JECT(.\Objects\ASMLEDMATRIX.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+  1000                 1     TruyXuatCOTCAO          EQU                     1000H
+  1F00                 2     TruyXuatCOTTHAP         EQU                     1F00H
+  4000                 3     TruyXuatHANGCAO         EQU                     4000H
+  9000                 4     TruyXuatHANGTHAP        EQU                     9000H
+                       5     ;------------DINH NGHIA O RAM NOI--------------
+  0021                 6     CHONCOT                         EQU                     21H             ;CHON COT DE QUET
+  0025                 7     LEDCOUNTER                      EQU                     25H             ;SO LED CON LAI CHU
+                             A TAT
+  0026                 8     TOCDOTAT                        EQU                     26H             ; = 10 <=> 0.1S
+  0027                 9     POINTER_OFFTABLE        EQU                     27H             ;VI TRI HIEN TAI TRONG BANG
+                              TAT LED
+  0028                10     CASEOFF                         EQU                     28H             
+                      11             ; 1 CASEOFF <=> 1/2 HANG TAT (HANG CAO HOAC THAP) THUOC 1 COT
+                      12             ; <=> CO 28 CASE, 28 TRUONG HOP
+  0029                13     POINTER_DATARAM         EQU                     29H             ;CON TRO SU DUNG DE CHUYEN 
+                             DATA VAO RAM NOI
+                      14             
+                      15     ;----------VAI TRO "CHINH" CAC THANH GHI----------
+                      16     ;----R0    :            POINTER O NHO RAM NOI
+                      17     ;----R1    :            POINTER XUAT GIA TRI HEX DE QUET MA TRAN
+                      18     ;----R2    :            BIEN VONG LAP QUET COT (8 COT 1 LAN QUET)
+                      19     ;----R3    :            BIEN VONG LAP CHUYEN GIA TRI HEX RA 595
+                      20     ;----R4    :            THOI` GIAN GIU~ NGUYEN TOAN` LED: 100 <=> 1S
+                      21     ;----R5    :            BIEN VONG LAP TOC DO TAT LED :  10 <=> 0.1S
+                      22     ;----R6    :            BIEN' VONG DELAY THU NHAT
+                      23     ;----R7    :            BIEN' VONG DELAY THU HAI
+                      24             
+0000                  25                             ORG                             0000H
+                      26                                     
+0000 8013             27                             JMP                             SET_MODE
+                      28                             
+0003                  29                             ORG                             0003H
+0003 01EB             30                             JMP                             NGATNGOAI0              ;TANGTOC
+                      31                             
+000B                  32                             ORG                             000BH
+000B 01AB             33                             JMP                             NGATTIMER0      
+                      34                             
+0013                  35                             ORG                             00013H
+0013 01EF             36                             JMP                             NGATNGOAI1              ;RESET SOM
+                      37                             
+0015                  38             SET_MODE:               
+0015 75260A           39                             MOV                             TOCDOTAT, #10
+                      40     
+0018 8019             41                             JMP                             MAIN
+                      42                             
+0030                  43                             ORG                             0030H
+0030                  44             RESET:                          
+0030 758107           45                             MOV                             SP,#07H
+                      46                             
+0033                  47     MAIN:
+                      48     
+0033 752800           49                             MOV                             CASEOFF, #0
+0036 752700           50                             MOV                             POINTER_OFFTABLE, #0
+0039 752500           51                             MOV                             LEDCOUNTER, #0
+                      52                     
+                      53                             
+003C 758901           54                             MOV                             TMOD, #01H
+A51 MACRO ASSEMBLER  ASMLEDMATRIX                                                         06/17/2022 10:27:01 PAGE     2
+
+003F 7C64             55                             MOV                             R4, #100
+0041 7D01             56                             MOV                             R5, #1
+                      57                             
+0043 D2AF             58                             SETB                    EA
+0045 D28D             59                             SETB                    TF0
+0047 D2A9             60                             SETB                    ET0                     ;CHO NGATTIMER0
+                      61                             
+0049 D2AA             62                             SETB                    EX1
+004B D2A8             63                             SETB                    EX0
+                      64                             
+                      65                             
+004D 7830             66                             MOV                             R0, #30H                        
+004F 752900           67                             MOV                             POINTER_DATARAM, #0
+0052 7950             68                             MOV                             R1, #50H
+0054                  69                     HEARTDATA:              
+0054 E529             70                             MOV                             A, POINTER_DATARAM
+0056 9001B6           71                             MOV                             DPTR, #HEXTABLE
+0059 93               72                             MOVC                    A, @A+DPTR
+005A F6               73                             MOV                             @R0, A
+                      74                             
+005B E529             75                             MOV                             A, POINTER_DATARAM
+005D 90019A           76                             MOV                             DPTR, #LEDCOUNT_TABLE
+0060 93               77                             MOVC                    A, @A+DPTR
+0061 F7               78                             MOV                             @R1, A
+                      79                             
+0062 09               80                             INC                             R1
+0063 08               81                             INC                             R0
+0064 0529             82                             INC                             POINTER_DATARAM
+0066 B850EB           83                             CJNE                    R0, #50H, HEARTDATA
+                      84                             
+0069 784D             85                             MOV                             R0, #4DH        ;4DH LA O NHO CHUA 
+                             LED DAU` TIEN CAN TAT
+                      86                     
+                      87                             
+                      88                             
+006B                  89     BACK:
+                      90                             
+006B 7930             91                             MOV                             R1,#30H 
+                      92                             
+006D 901F00           93                             MOV                             DPTR, #TruyXuatCOTTHAP
+0070 1182             94                             CALL                    QUETMATRAN
+0072 901000           95                             MOV                             DPTR, #TruyXuatCOTCAO
+0075 1182             96                             CALL                    QUETMATRAN
+                      97                             
+0077 80F2             98                             JMP                             BACK
+                      99     
+                     100     
+0079                 101     DELAY:
+0079 7F02            102                             MOV                             R7, #2
+007B AEFA            103             LAPDL:  MOV                             R6, 250
+007D DEFE            104                             DJNZ                    R6, $
+007F DFFA            105                             DJNZ                    R7, LAPDL
+0081 22              106                             RET
+                     107     
+0082                 108     QUETMATRAN:
+0082 752101          109                             MOV                             CHONCOT,#000000001B
+0085 7A08            110                             MOV                             R2,#8
+0087                 111             LAPQUET:
+0087 C083            112                             PUSH                    83H                     
+0089 C082            113                             PUSH                    82H
+                     114                             
+008B E521            115                             MOV                             A, CHONCOT                         
+                                                  
+008D F0              116                             MOVX                    @DPTR, A                                   
+                                  
+                     117                             
+A51 MACRO ASSEMBLER  ASMLEDMATRIX                                                         06/17/2022 10:27:01 PAGE     3
+
+008E E7              118                             MOV                             A,@R1
+008F 904000          119                             MOV                             DPTR,#TruyXuatHANGCAO              
+                                  ; 3E -> (4000) 
+0092 F0              120                             MOVX                    @DPTR, A
+0093 09              121                             INC                             R1
+                     122                             
+0094 E7              123                             MOV                             A,@R1
+0095 909000          124                             MOV                             DPTR,#TruyXuatHANGTHAP
+0098 F0              125                             MOVX                    @DPTR, A
+0099 09              126                             INC                             R1
+                     127                             
+009A 1179            128                             CALL                    DELAY
+                     129                             
+009C D082            130                             POP                             82H
+009E D083            131                             POP                             83H
+00A0 E521            132                             MOV                             A,CHONCOT
+00A2 23              133                             RL                              A
+00A3 F521            134                             MOV                             CHONCOT,A
+                     135                             
+00A5 DAE0            136                             DJNZ                    R2,     LAPQUET
+00A7 7400            137                             MOV                             A, #00000000B
+00A9 F0              138                             MOVX                    @DPTR, A
+                     139                             
+00AA 22              140                             RET
+                     141     
+00AB                 142     NGATTIMER0:
+00AB C28C            143                             CLR                             TR0
+00AD 758CDC          144                             MOV                             TH0, #HIGH(-9216)
+00B0 758A00          145                             MOV                             TL0, #LOW(-9216)
+00B3 D28C            146                             SETB                    TR0
+                     147                             
+00B5 DC15            148                             DJNZ                    R4, EXIT
+00B7 7C01            149                             MOV                             R4, #1
+00B9 DD11            150                             DJNZ                    R5, EXIT
+                     151     ;NGATIMER LAN 1: BAT DAU` TAT DAN
+                     152             
+00BB AD26            153                             MOV                             R5, TOCDOTAT
+                     154                             
+00BD E528            155                             MOV                             A, CASEOFF
+00BF B41C08          156                             CJNE                    A, #28, NEXT
+                     157                             ;NEU (28H) = 28 THI DA TAT XONG
+00C2 A881            158                             MOV                             R0, SP
+00C4 7600            159                             MOV                             @R0, #HIGH(RESET)       ;SP SAU CAT
+                              BYTE CAO
+00C6 18              160                             DEC                             R0
+00C7 7630            161                             MOV                             @R0, #LOW(RESET)        ;SP TRUOC C
+                             AT BYTE THAP
+00C9 32              162                             RETI
+00CA                 163             NEXT:
+00CA 11CD            164                             CALL                    HEX_LEDOFF_CONVERT
+                     165                             
+00CC 32              166             EXIT:   RETI
+                     167                             
+00CD                 168     HEX_LEDOFF_CONVERT:
+00CD C001            169                             PUSH                    01H
+                     170             
+00CF E527            171                             MOV                             A, POINTER_OFFTABLE
+00D1 9000FA          172                             MOV                             DPTR, #HEXOFFTABLE
+00D4 93              173                             MOVC                    A, @A+DPTR
+00D5 F6              174                             MOV                             @R0, A
+00D6 0527            175                             INC                             POINTER_OFFTABLE
+                     176                     
+00D8 7450            177                             MOV                             A, #50H
+00DA 2528            178                             ADD                             A, CASEOFF
+00DC F9              179                             MOV                             R1, A
+00DD E7              180                             MOV                             A, @R1
+A51 MACRO ASSEMBLER  ASMLEDMATRIX                                                         06/17/2022 10:27:01 PAGE     4
+
+00DE F525            181                             MOV                             LEDCOUNTER, A
+                     182                             
+00E0 D52503          183                             DJNZ                    LEDCOUNTER, EXIT_RETI
+                     184                             
+00E3 18              185                             DEC                             R0
+00E4 0528            186                             INC                             CASEOFF
+                     187                     
+00E6                 188             EXIT_RETI:      
+00E6 A725            189                             MOV                             @R1, LEDCOUNTER 
+00E8 D001            190                             POP                             01H
+00EA 22              191                             RET
+                     192     
+00EB                 193     NGATNGOAI0:
+00EB 752632          194                             MOV                             TOCDOTAT,#50
+00EE 32              195                             RETI
+                     196             
+                     197                             
+00EF                 198     NGATNGOAI1:
+00EF 75260A          199                             MOV                             TOCDOTAT,#10
+00F2 A881            200                             MOV                             R0, SP
+00F4 7600            201                             MOV                             @R0, #HIGH(RESET)       ;SP SAU CAT
+                              BYTE CAO
+00F6 18              202                             DEC                             R0
+00F7 7630            203                             MOV                             @R0, #LOW(RESET)        ;SP TRUOC C
+                             AT BYTE THAP
+00F9 32              204                             RETI
+                     205     
+                     206     
+00FA                 207     HEXOFFTABLE:
+00FA 3C383020        208     DB      03CH,038H,030H,020H,000H,078H,070H,060H,040H,000H
+00FE 00787060                
+0102 4000                    
+0104 7E7C7870        209     DB      07EH,07CH,078H,070H,060H,040H,000H,0FCH,0F8H,0F0H,0E0H,0C0H, 080H,000H
+0108 604000FC                
+010C F8F0E0C0                
+0110 8000                    
+0112 FEFCF8F0        210     DB      0FEH,0FCH,0F8H,0F0H,0E0H,0C0H,080H,000H,0FEH,0FCH,0F8H,0F0H,0E0H,0C0H,080H,000H
+0116 E0C08000                
+011A FEFCF8F0                
+011E E0C08000                
+0122 FEFCF8F0        211     DB      0FEH,0FCH,0F8H,0F0H,0E0H,0C0H,080H,000H,0FEH,0FCH,0F8H,0F0H,0E0H,0C0H,080H,000H
+0126 E0C08000                
+012A FEFCF8F0                
+012E E0C08000                
+0132 FEFCF8F0        212     DB      0FEH,0FCH,0F8H,0F0H,0E0H,0C0H,080H,000H,0FEH,0FCH,0F8H,0F0H,0E0H,0C0H,080H,000H
+0136 E0C08000                
+013A FEFCF8F0                
+013E E0C08000                
+0142 FEFCF8F0        213     DB      0FEH,0FCH,0F8H,0F0H,0E0H,0C0H,080H,000H,0FEH,0FCH,0F8H,0F0H,0E0H,0C0H,080H,000H
+0146 E0C08000                
+014A FEFCF8F0                
+014E E0C08000                
+0152 FEFCF8F0        214     DB      0FEH,0FCH,0F8H,0F0H,0E0H,0C0H,080H,000H,0FEH,0FCH,0F8H,0F0H,0E0H,0C0H,080H,000H
+0156 E0C08000                
+015A FEFCF8F0                
+015E E0C08000                
+0162 FCF8F0E0        215     DB      0FCH,0F8H,0F0H,0E0H,0C0H,080H,000H,07EH,07CH,078H,070H,060H,040H,000H
+0166 C080007E                
+016A 7C787060                
+016E 4000                    
+0170 F8F0E0C0        216     DB      0F8H,0F0H,0E0H,0C0H,080H,000H,03EH,03CH,038H,030H,020H,000H
+0174 80003E3C                
+0178 38302000                
+017C F0E0C080        217     DB      0F0H,0E0H,0C0H,080H,000H,01EH,01CH,018H,010H,000H
+0180 001E1C18                
+0184 1000                    
+A51 MACRO ASSEMBLER  ASMLEDMATRIX                                                         06/17/2022 10:27:01 PAGE     5
+
+0186 E0C08000        218     DB      0E0H,0C0H,080H,000H,00EH,00CH,008H,000H
+018A 0E0C0800                
+018E C0800006        219     DB      0C0H,080H,000H,006H,004H,000H
+0192 0400                    
+0194 80000200        220     DB      080H,000H,002H,000H
+0198 0000            221     DB      000H,000H
+                     222     
+019A                 223     LEDCOUNT_TABLE: 
+019A 05050707        224     DB      5,5 , 7,7 , 8,8 , 8,8 , 8,8 , 8,8 , 8,8 , 7,7  , 6,6  ,5,5 , 4,4 , 3,3 , 2,2  ,1,1  
+019E 08080808                
+01A2 08080808                
+01A6 08080707                
+01AA 06060505                
+01AE 04040303                
+01B2 02020101                
+                     225     
+01B6                 226     HEXTABLE:
+                     227                             ;32H
+01B6 00000180        228     DB      000H,000H,  001H,080H,  003H,0C0H,  007H,0E0H,  00FH,0F0H,  01FH,0F8H,  03FH,0FCH, 
+                              07FH,0FEH  
+01BA 03C007E0                
+01BE 0FF01FF8                
+01C2 3FFC7FFE                
+01C6 FFFFFFFF        229     DB      0FFH,0FFH,  0FFH,0FFH,  0FFH,0FFH,  0FFH,0FFH,  0FFH,0FFH,  0FEH,07FH,  07CH,03EH, 
+                              000H,000H    
+01CA FFFFFFFF                
+01CE FFFFFE7F                
+01D2 7C3E0000                
+                     230                                                                                                
+                                                                                                  ;4DH
+                     231                                                                                                
+                                                                                                  
+                     232     END                     
+A51 MACRO ASSEMBLER  ASMLEDMATRIX                                                         06/17/2022 10:27:01 PAGE     6
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+BACK . . . . . . .  C ADDR   006BH   A   
+CASEOFF. . . . . .  N NUMB   0028H   A   
+CHONCOT. . . . . .  N NUMB   0021H   A   
+DELAY. . . . . . .  C ADDR   0079H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+EX0. . . . . . . .  B ADDR   00A8H.0 A   
+EX1. . . . . . . .  B ADDR   00A8H.2 A   
+EXIT . . . . . . .  C ADDR   00CCH   A   
+EXIT_RETI. . . . .  C ADDR   00E6H   A   
+HEARTDATA. . . . .  C ADDR   0054H   A   
+HEXOFFTABLE. . . .  C ADDR   00FAH   A   
+HEXTABLE . . . . .  C ADDR   01B6H   A   
+HEX_LEDOFF_CONVERT  C ADDR   00CDH   A   
+LAPDL. . . . . . .  C ADDR   007BH   A   
+LAPQUET. . . . . .  C ADDR   0087H   A   
+LEDCOUNTER . . . .  N NUMB   0025H   A   
+LEDCOUNT_TABLE . .  C ADDR   019AH   A   
+MAIN . . . . . . .  C ADDR   0033H   A   
+NEXT . . . . . . .  C ADDR   00CAH   A   
+NGATNGOAI0 . . . .  C ADDR   00EBH   A   
+NGATNGOAI1 . . . .  C ADDR   00EFH   A   
+NGATTIMER0 . . . .  C ADDR   00ABH   A   
+POINTER_DATARAM. .  N NUMB   0029H   A   
+POINTER_OFFTABLE .  N NUMB   0027H   A   
+QUETMATRAN . . . .  C ADDR   0082H   A   
+RESET. . . . . . .  C ADDR   0030H   A   
+SET_MODE . . . . .  C ADDR   0015H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TOCDOTAT . . . . .  N NUMB   0026H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TRUYXUATCOTCAO . .  N NUMB   1000H   A   
+TRUYXUATCOTTHAP. .  N NUMB   1F00H   A   
+TRUYXUATHANGCAO. .  N NUMB   4000H   A   
+TRUYXUATHANGTHAP .  N NUMB   9000H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,3 @@
+".\Objects\ASMLEDMATRIX.obj" 
+TO ".\Objects\ASMMATRIX" 
+PRINT(".\Listings\ASMMATRIX.m51") RAMSIZE(256) 

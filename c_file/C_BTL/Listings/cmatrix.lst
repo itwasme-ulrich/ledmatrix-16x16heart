@@ -1,0 +1,255 @@
+C51 COMPILER V9.60.0.0   CMATRIX                                                           06/17/2022 15:42:01 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE CMATRIX
+OBJECT MODULE PLACED IN .\Objects\cmatrix.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE cmatrix.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\c
+                    -matrix.lst) TABS(2) OBJECT(.\Objects\cmatrix.obj)
+
+line level    source
+
+   1          #include  <REGX51.H>
+   2          #define   choncotcao    1
+   3          #define   choncotthap   0
+   4          //1 lan quet tinh toan duoc 0.0175s
+   5          //su dung hoan toan mo phong
+   6          #define   counter1s     52  //60 <-> 1.10492079s
+   7          #define   off_speed     6   // 4 <-> delta = 0.0702s
+   8          
+   9          unsigned char hextable[] = //Ma quet LED ma trix
+  10          {
+  11          0x00,0x00,  0x01,0x80,  0x03,0xC0,  0x07,0xE0,
+  12          0x0F,0xF0,  0x1F,0xF8,  0x3F,0xFC,  0x7F,0xFE,
+  13          0xFF,0xFF,  0xFF,0xFF,  0xFF,0xFF,  0xFF,0xFF, 
+  14          0xFF,0xFF,  0xFE,0x7F,  0x7C,0x3E,  0x00,0x00
+  15          };
+  16          
+  17          unsigned char ledcount[] =          //So luong LED sang
+  18          {
+  19           5,5 , 7,7 , 8,8 , 8,8 , 8,8 , 8,8 , 8,8 , 
+  20           7,7  , 6,6  ,5,5 , 4,4 , 3,3 , 2,2  ,1,1 ,
+  21          
+  22          };
+  23          
+  24          unsigned char hextable_copy[33] ;   // Backup gia tri Hex
+  25          
+  26          volatile unsigned char xdata cotcao _at_ 0x1000;
+  27          volatile unsigned char xdata cotthap _at_ 0x1F00;
+  28          volatile unsigned char xdata hangcao _at_ 0x4000;
+  29          volatile unsigned char xdata hangthap _at_ 0x9000;
+  30          
+  31          unsigned char     counter_led;      // bien dem so led con lai
+  32          unsigned char     led_valuex;       // thay doi HEX de LED tat
+  33          unsigned char     delta_led ;       // luong led tat <=> luong b.i.t dich
+  34          unsigned char     pter;             // bien vong lap dich b.i.t 
+  35          
+  36          int           pointer_quet, mode;   //con tro quet HEX, MODE(0-29)
+  37          int           cop;                  // bien vong lap copy HEX table
+  38          int           x,y = 0;              // bien vong lap thoi gian hien thi
+  39          
+  40          
+  41          void  quetmatran(unsigned char m);
+  42          int   ledoff(int n);
+  43          
+  44          
+  45          void delay_ms (int time) {            //Ham Delay ms
+  46   1        int j, k;
+  47   1        for(j = 0; j < time; j++) {
+  48   2          for (k = 0; k <115 ; k++)
+  49   2          {}
+  50   2        }
+  51   1      }
+  52          
+  53          void quetmatran(unsigned char m) {   //Ham chon cot - quet
+  54   1        
+C51 COMPILER V9.60.0.0   CMATRIX                                                           06/17/2022 15:42:01 PAGE 2   
+
+  55   1        unsigned char choncot = 0x01;
+  56   1        int i;
+  57   1        for( i = 0; i < 8; i++) {
+  58   2          if( m == choncotthap) {
+  59   3            cotthap = choncot;
+  60   3          }
+  61   2          else {
+  62   3            cotcao = choncot;
+  63   3          }
+  64   2          
+  65   2          hangcao = hextable[pointer_quet] ;
+  66   2          pointer_quet++;
+  67   2          hangthap = hextable[pointer_quet] ;
+  68   2          pointer_quet++;
+  69   2          delay_ms(1);
+  70   2          
+  71   2          choncot = choncot * 2;
+  72   2        }
+  73   1        
+  74   1        choncot = 0;
+  75   1        if( m == choncotthap) {
+  76   2            cotthap = choncot;
+  77   2          }
+  78   1          else {
+  79   2            cotcao = choncot;
+  80   2          }
+  81   1      } 
+  82          
+  83          void tatled(){
+  84   1      
+  85   1         counter_led = ledcount[mode];        //Lay so LED tu` trong bang
+  86   1         led_valuex = ledoff(mode);           //Lay HEX thay doi tu` SWITCH
+  87   1        
+  88   1        if(mode%2==0) {
+  89   2        delta_led = ledcount[mode+1] - counter_led;   //So LED con lai
+  90   2        }
+  91   1        else {
+  92   2        delta_led = ledcount[mode-1] - counter_led;   
+  93   2        }
+  94   1        
+  95   1        for(pter = 0; pter < delta_led ; pter++) {
+  96   2          led_valuex = led_valuex * 2;              // value LED <=> Dich b.i.t
+  97   2        }
+  98   1        hextable[29-mode] = hextable[29-mode] & (~led_valuex);  //Doi HEX
+  99   1        ledcount[mode] = ledcount[mode] - 1;          
+ 100   1        if ( ledcount[mode] == 255 ) {
+ 101   2        
+ 102   2          if(mode%2 == 0) { 
+ 103   3            ledcount[mode] = ledcount[mode+1];  //  5<->5 , 7<->7 
+ 104   3          }
+ 105   2          else {
+ 106   3            ledcount[mode] = ledcount[mode-1];  //  Doi xung, tu backup
+ 107   3          }
+ 108   2          mode = mode + 1;                      // Kich MODE
+ 109   2          x = off_speed - 1;                                // Bo qua 0.1s khi chuyen MODE
+ 110   2        }
+ 111   1      }
+ 112          
+ 113            //0x02,0x04,0x01,0x02,0x01,0x01,0x01,
+ 114            //0x01,0x01,0x01,0x01,0x01,0x01,0x01,
+ 115            //0x02,0x01,0x04,0x01,0x08,0x01,0x10,
+ 116            //0x01,0x20,0x01,0x40,0x01,0x80,0x01
+C51 COMPILER V9.60.0.0   CMATRIX                                                           06/17/2022 15:42:01 PAGE 3   
+
+ 117          
+ 118          int ledoff(int n) {               //Khong du RAM => SWTICHCASE thay TABLE
+ 119   1        int value_off;
+ 120   1        switch(n) {
+ 121   2          case 0 :   value_off = 0x02;
+ 122   2                     break;
+ 123   2          case 1 :   value_off = 0x04;
+ 124   2                     break;
+ 125   2          case 2 :   value_off = 0x01;
+ 126   2                     break;
+ 127   2          case 3 :   value_off = 0x02;
+ 128   2                     break;
+ 129   2          case 4 :   value_off = 0x01;
+ 130   2                     break;
+ 131   2          case 5 :   value_off = 0x01;
+ 132   2                     break;
+ 133   2          case 6 :   value_off = 0x01;
+ 134   2                     break;
+ 135   2          case 7 :   value_off = 0x01;
+ 136   2                     break;
+ 137   2          case 8 :   value_off = 0x01;
+ 138   2                     break;
+ 139   2          case 9 :   value_off = 0x01;
+ 140   2                     break;
+ 141   2          case 10 :  value_off = 0x01;
+ 142   2                     break;
+ 143   2          case 11 :  value_off = 0x01;
+ 144   2                     break;
+ 145   2          case 12 :  value_off = 0x01;
+ 146   2                     break;
+ 147   2          case 13 :  value_off = 0x01;
+ 148   2                     break;
+ 149   2          case 14 :  value_off = 0x02;
+ 150   2                     break;
+ 151   2          case 15 :  value_off = 0x01;
+ 152   2                     break;
+ 153   2          case 16 :  value_off = 0x04;
+ 154   2                     break;
+ 155   2          case 17 :  value_off = 0x01;
+ 156   2                     break;
+ 157   2          case 18 :  value_off = 0x08;
+ 158   2                     break;
+ 159   2          case 19 :  value_off = 0x01;
+ 160   2                     break;
+ 161   2          case 20 :  value_off = 0x10;
+ 162   2                     break;
+ 163   2          case 21 :  value_off = 0x01;
+ 164   2                     break;
+ 165   2          case 22 :  value_off = 0x20;
+ 166   2                     break;
+ 167   2          case 23 :  value_off = 0x01;
+ 168   2                     break;
+ 169   2          case 24 :  value_off = 0x40;
+ 170   2                     break;
+ 171   2          case 25 :  value_off = 0x01;
+ 172   2                     break;
+ 173   2          case 26 :  value_off = 0x80;
+ 174   2                     break;
+ 175   2          case 27 :  value_off = 0x01;
+ 176   2                     break;
+ 177   2          default:   value_off = 0;
+ 178   2                     break;
+C51 COMPILER V9.60.0.0   CMATRIX                                                           06/17/2022 15:42:01 PAGE 4   
+
+ 179   2        }
+ 180   1        return value_off;
+ 181   1      }
+ 182          
+ 183          void reset (void) {       //Tat het LED thi Reset
+ 184   1      
+ 185   1        for(cop = 0 ; cop < 32 ; cop++){
+ 186   2          hextable[cop] = hextable_copy[cop]; //BACKUP
+ 187   2        } 
+ 188   1        
+ 189   1        ((void (code *) (void)) 0x0000) ();   //Ve dau ch.trinh
+ 190   1      }
+ 191          
+ 192          
+ 193          //void ngattimer0 (void) interrupt 1
+ 194          //{
+ 195          //}
+ 196          
+ 197          void main () {
+ 198   1      
+ 199   1        mode = 0;
+ 200   1        for(cop = 0 ; cop < 32 ; cop++) {
+ 201   2          hextable_copy[cop] = hextable[cop];
+ 202   2        } 
+ 203   1        
+ 204   1        while(1) {
+ 205   2        
+ 206   2          pointer_quet = 0;
+ 207   2          quetmatran(choncotthap);
+ 208   2          quetmatran(choncotcao);
+ 209   2          
+ 210   2          y++;
+ 211   2          if(y == counter1s ) {     
+ 212   3            y = counter1s - 1;  //Neu Y dem du lan thi` truot qua Y
+ 213   3            x++;
+ 214   3            if(x == off_speed) {
+ 215   4              x = 0;
+ 216   4              tatled();
+ 217   4              if (mode == 28) {
+ 218   5                reset();
+ 219   5              }   
+ 220   4            }
+ 221   3          }
+ 222   2        }
+ 223   1      }
+ 224          
+ 225          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    616    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =    107       5
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

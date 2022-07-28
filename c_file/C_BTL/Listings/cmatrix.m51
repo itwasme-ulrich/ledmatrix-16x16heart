@@ -1,0 +1,287 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    06/17/2022  15:42:01  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\cmatrix.obj TO .\Objects\cmatrix PRINT (.\Listings\cmatrix.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\cmatrix.obj (CMATRIX)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?SIDIV)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?UIDIV)
+
+
+LINK MAP OF MODULE:  .\Objects\cmatrix (CMATRIX)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     006BH     UNIT         ?DT?CMATRIX
+            DATA    0073H     0003H     UNIT         _DATA_GROUP_
+            IDATA   0076H     0001H     UNIT         ?STACK
+
+            * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
+                    0000H     1000H                  *** GAP ***
+            XDATA   1000H     0001H     ABSOLUTE     
+                    1001H     0EFFH                  *** GAP ***
+            XDATA   1F00H     0001H     ABSOLUTE     
+                    1F01H     20FFH                  *** GAP ***
+            XDATA   4000H     0001H     ABSOLUTE     
+                    4001H     4FFFH                  *** GAP ***
+            XDATA   9000H     0001H     ABSOLUTE     
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     00BCH     UNIT         ?PR?_LEDOFF?CMATRIX
+            CODE    00BFH     0090H     UNIT         ?PR?TATLED?CMATRIX
+            CODE    014FH     008CH     UNIT         ?C_C51STARTUP
+            CODE    01DBH     008BH     UNIT         ?C?LIB_CODE
+            CODE    0266H     006AH     UNIT         ?PR?_QUETMATRAN?CMATRIX
+            CODE    02D0H     0068H     UNIT         ?PR?MAIN?CMATRIX
+            CODE    0338H     0046H     UNIT         ?C_INITSEG
+            CODE    037EH     0026H     UNIT         ?PR?_DELAY_MS?CMATRIX
+            CODE    03A4H     0024H     UNIT         ?PR?RESET?CMATRIX
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\cmatrix (CMATRIX)
+
+
+SEGMENT                           DATA_GROUP 
+  +--> CALLED SEGMENT           START    LENGTH
+-----------------------------------------------
+?C_C51STARTUP                   -----    -----
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/17/2022  15:42:01  PAGE 2
+
+
+  +--> ?PR?MAIN?CMATRIX
+  +--> ?C_INITSEG
+
+?PR?MAIN?CMATRIX                -----    -----
+  +--> ?PR?_QUETMATRAN?CMATRIX
+  +--> ?PR?TATLED?CMATRIX
+  +--> ?PR?RESET?CMATRIX
+
+?PR?_QUETMATRAN?CMATRIX         0073H    0003H
+  +--> ?PR?_DELAY_MS?CMATRIX
+
+?PR?TATLED?CMATRIX              -----    -----
+  +--> ?PR?_LEDOFF?CMATRIX
+
+?PR?_LEDOFF?CMATRIX             0073H    0002H
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\cmatrix (CMATRIX)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        CMATRIX
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:00BFH         PUBLIC        tatled
+  D:0008H         PUBLIC        counter_led
+  D:0009H         PUBLIC        delta_led
+  C:03A4H         PUBLIC        reset
+  C:02D0H         PUBLIC        main
+  D:000AH         PUBLIC        mode
+  D:000CH         PUBLIC        pointer_quet
+  D:000EH         PUBLIC        led_valuex
+  D:000FH         PUBLIC        pter
+  D:0010H         PUBLIC        cop
+  C:0266H         PUBLIC        _quetmatran
+  X:9000H         PUBLIC        hangthap
+  D:0012H         PUBLIC        hextable
+  C:037EH         PUBLIC        _delay_ms
+  X:4000H         PUBLIC        hangcao
+  D:0032H         PUBLIC        ledcount
+  D:004EH         PUBLIC        hextable_copy
+  C:0003H         PUBLIC        _ledoff
+  D:006FH         PUBLIC        x
+  X:1F00H         PUBLIC        cotthap
+  D:0071H         PUBLIC        y
+  X:1000H         PUBLIC        cotcao
+  -------         PROC          _DELAY_MS
+  D:0006H         SYMBOL        time
+  -------         DO            
+  D:0004H         SYMBOL        j
+  D:0002H         SYMBOL        k
+  -------         ENDDO         
+  C:037EH         LINE#         45
+  C:037EH         LINE#         47
+  C:038EH         LINE#         48
+  C:0391H         LINE#         49
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/17/2022  15:42:01  PAGE 3
+
+
+  C:039CH         LINE#         50
+  C:03A3H         LINE#         51
+  -------         ENDPROC       _DELAY_MS
+  -------         PROC          _QUETMATRAN
+  D:0073H         SYMBOL        m
+  -------         DO            
+  D:0001H         SYMBOL        choncot
+  D:0074H         SYMBOL        i
+  -------         ENDDO         
+  C:0266H         LINE#         53
+  C:0268H         LINE#         55
+  C:026AH         LINE#         57
+  C:026FH         LINE#         58
+  C:0273H         LINE#         59
+  C:0278H         LINE#         60
+  C:027AH         LINE#         61
+  C:027AH         LINE#         62
+  C:027FH         LINE#         63
+  C:027FH         LINE#         65
+  C:0289H         LINE#         66
+  C:0291H         LINE#         67
+  C:0299H         LINE#         68
+  C:02A1H         LINE#         69
+  C:02A8H         LINE#         71
+  C:02ACH         LINE#         72
+  C:02BFH         LINE#         74
+  C:02C1H         LINE#         75
+  C:02C5H         LINE#         76
+  C:02C9H         LINE#         77
+  C:02CAH         LINE#         78
+  C:02CAH         LINE#         79
+  C:02CFH         LINE#         80
+  C:02CFH         LINE#         81
+  -------         ENDPROC       _QUETMATRAN
+  -------         PROC          TATLED
+  C:00BFH         LINE#         83
+  C:00BFH         LINE#         85
+  C:00C7H         LINE#         86
+  C:00D0H         LINE#         88
+  C:00DFH         LINE#         89
+  C:00E1H         LINE#         90
+  C:00E3H         LINE#         91
+  C:00E3H         LINE#         92
+  C:00EEH         LINE#         93
+  C:00EEH         LINE#         95
+  C:00F8H         LINE#         96
+  C:00FEH         LINE#         97
+  C:0102H         LINE#         98
+  C:0112H         LINE#         99
+  C:0117H         LINE#         100
+  C:0120H         LINE#         102
+  C:0130H         LINE#         103
+  C:0132H         LINE#         104
+  C:0134H         LINE#         105
+  C:0134H         LINE#         106
+  C:0140H         LINE#         107
+  C:0140H         LINE#         108
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/17/2022  15:42:01  PAGE 4
+
+
+  C:0148H         LINE#         109
+  C:014EH         LINE#         110
+  C:014EH         LINE#         111
+  -------         ENDPROC       TATLED
+  -------         PROC          _LEDOFF
+  D:0006H         SYMBOL        n
+  -------         DO            
+  D:0073H         SYMBOL        value_off
+  -------         ENDDO         
+  C:0003H         LINE#         118
+  C:0003H         LINE#         120
+  C:006DH         LINE#         121
+  C:006DH         LINE#         122
+  C:006FH         LINE#         123
+  C:006FH         LINE#         124
+  C:0071H         LINE#         125
+  C:0071H         LINE#         127
+  C:0071H         LINE#         128
+  C:0073H         LINE#         129
+  C:0073H         LINE#         131
+  C:0073H         LINE#         133
+  C:0073H         LINE#         135
+  C:0073H         LINE#         137
+  C:0073H         LINE#         139
+  C:0073H         LINE#         141
+  C:0073H         LINE#         143
+  C:0073H         LINE#         145
+  C:0073H         LINE#         147
+  C:0073H         LINE#         149
+  C:0079H         LINE#         150
+  C:007BH         LINE#         151
+  C:007BH         LINE#         153
+  C:0081H         LINE#         154
+  C:0083H         LINE#         155
+  C:0083H         LINE#         157
+  C:0089H         LINE#         158
+  C:008BH         LINE#         159
+  C:008BH         LINE#         161
+  C:0091H         LINE#         162
+  C:0093H         LINE#         163
+  C:0093H         LINE#         165
+  C:0099H         LINE#         166
+  C:009BH         LINE#         167
+  C:009BH         LINE#         169
+  C:00A1H         LINE#         170
+  C:00A3H         LINE#         171
+  C:00A3H         LINE#         172
+  C:00A5H         LINE#         173
+  C:00ABH         LINE#         174
+  C:00ADH         LINE#         175
+  C:00B3H         LINE#         176
+  C:00B5H         LINE#         177
+  C:00BAH         LINE#         178
+  C:00BAH         LINE#         179
+  C:00BAH         LINE#         180
+  C:00BEH         LINE#         181
+  -------         ENDPROC       _LEDOFF
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/17/2022  15:42:01  PAGE 5
+
+
+  -------         PROC          RESET
+  C:03A4H         LINE#         183
+  C:03A4H         LINE#         185
+  C:03A9H         LINE#         186
+  C:03B7H         LINE#         187
+  C:03C5H         LINE#         189
+  -------         ENDPROC       RESET
+  -------         PROC          MAIN
+  C:02D0H         LINE#         197
+  C:02D0H         LINE#         199
+  C:02D5H         LINE#         200
+  C:02D9H         LINE#         201
+  C:02E7H         LINE#         202
+  C:02F5H         LINE#         204
+  C:02F5H         LINE#         206
+  C:02FAH         LINE#         207
+  C:02FEH         LINE#         208
+  C:0303H         LINE#         210
+  C:030BH         LINE#         211
+  C:0311H         LINE#         212
+  C:0316H         LINE#         213
+  C:031EH         LINE#         214
+  C:0324H         LINE#         215
+  C:0328H         LINE#         216
+  C:032BH         LINE#         217
+  C:0333H         LINE#         218
+  C:0336H         LINE#         219
+  C:0336H         LINE#         220
+  C:0336H         LINE#         221
+  C:0336H         LINE#         222
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        CMATRIX
+
+  -------         MODULE        ?C?SIDIV
+  C:01DBH         PUBLIC        ?C?SIDIV
+  -------         ENDMOD        ?C?SIDIV
+
+  -------         MODULE        ?C?UIDIV
+  C:0211H         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+Program Size: data=119.0 xdata=4 code=968
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

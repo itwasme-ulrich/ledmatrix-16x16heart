@@ -1,0 +1,3 @@
+".\Objects\cmatrix.obj" 
+TO ".\Objects\cmatrix" 
+PRINT(".\Listings\cmatrix.m51") RAMSIZE(256) 
