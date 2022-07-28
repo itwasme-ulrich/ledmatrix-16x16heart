@@ -1,6 +1,6 @@
 # Led matrix 16x16 - Fading heart
 Assignments report of Microprocessor (EE2039) this year (K20).
-This is out attempts to complete as best as possible.
+This is our attempts to complete as best as possible.
 
 ## My team
 | No. | Name |
