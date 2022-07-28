@@ -12,7 +12,7 @@ This is our attempts to complete as best as possible.
 ### This project used:
 - 8051 family
 - 4 1088AS Led matrix
-###PCB
+### PCB
 - Altium
 
 ## Software
